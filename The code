@@ -1,0 +1,212 @@
+/******************************************************************************
+
+                              Online C++ Compiler.
+               Code, Compile, Run and Debug C++ program online.
+Write your code in this editor and press "Run" button to compile and execute it.
+
+*******************************************************************************/
+
+#include <iostream>
+using namespace std;
+
+void board(char* c){
+    cout << "   A  B  C  D  E  F  G  H  I  J " << endl;
+    for(int i = 0; i < 10; i++){
+        if (i < 9){
+            cout << " ";
+        }
+        cout << to_string(i + 1);
+        for (int j = 0; j < 10; j++){
+            cout << "[" << c[i*10 + j] << "]";
+        }
+        cout << endl;
+    }
+}
+
+void shipcheck(int num, int alph, char* c1, bool* b, int boolplacement, int bruh, int d){
+    int check = 1;
+    if (d == 1){
+        for (int p = 0; p < bruh; p++){
+            if (c1[(p + num)*10 + alph] != '-'){
+                check = 0;
+                break;
+            }
+        }
+        if (check == 1){
+            for (int p = 0; p < bruh; p++){
+                c1[(p + num)*10 + alph] = 'O';
+                b[boolplacement] = 1;
+            }
+        }
+    } else if (d == 2){
+        for (int p = 0; p < bruh; p++){
+            if (c1[(num)*10 + alph + p] != '-'){
+                check = 0;
+                break;
+            }
+        }
+        if (check == 1){
+            for (int p = 0; p < bruh; p++){
+                c1[(num)*10 + alph + p] = 'O';
+                b[boolplacement] = 1;
+            }
+        }
+    }
+}
+int main(){
+    string input;
+    cout << "Hello, and welcome to Battleship! This game requires two different players to play!" << endl << endl;
+    char c1 [100];
+    for (int i = 0; i < 100; i++){
+        c1[i] = '-';
+    }
+    bool b [5] = {0,0,0,0,0};
+    for (int i = 0; i < 1;){
+        board(c1);
+        cout << "Let's place your battleships!" << endl;
+        cout << "Ships to place:" << endl << endl;
+        for (int bb = 0; bb < 5; bb++){
+            if (b[bb] == 0){
+                if (bb == 0){
+                    cout << "OOOOO - Carrier (1)" << endl;
+                } else if (bb == 1){
+                    cout << "OOOO - Battleship (2)" << endl;
+                } else if (bb == 2){
+                    cout << "OOO - Cruiser (3)" << endl;
+                } else if (bb == 3){
+                    cout << "OOO - Submarine (4)" << endl;
+                } else if (bb == 4){
+                    cout << "OO - Destroyer (5)" << endl;
+                }
+            }
+        }
+        cout << endl;
+        int ship = 0;
+        for (int o = 0; o < 1;){
+            cout << "Which ship would you like to place?" << endl;
+            cin >> input;
+            if (input == "Carrier" || input == "1"){
+                ship = 1;
+            } else if (input == "Battleship" || input == "2"){
+                ship = 2;
+            } else if (input == "Cruiser" || input == "3"){
+                ship = 3;
+            } else if (input == "Submarine" || input == "4"){
+                ship = 4;
+            } else if (input == "Destroyer" || input == "5"){
+                ship = 5;
+            }
+            if (ship != 0){
+                o++;
+            }
+        }
+        int d = 0;
+        for (int o = 0; o < 1;){
+            cout << "And would you like to place this ship vertically or horizontally?" << endl;
+            cin >> input;
+            if (input[0] == 'v' || input[0] == 'V'){
+                d = 1;
+            } else if (input[0] == 'h' || input[0] == 'H'){
+                d = 2;
+            }
+            if (d != 0){
+                o++;
+            }
+        }
+        int alph = -1;
+        int num = -1;
+        for (int o = 0; o < 1;){
+            cout << "And where would you like to place this ship? (E.g. 'E4') (Top left part takes priority)" << endl;
+            cin >> input;
+            if (((input[0] == 'a' || input[0] == 'b' || input[0] == 'c' || input[0] == 'd' || input[0] == 'e' || input[0] == 'f' || input[0] == 'g' || input[0] == 'h' || input[0] == 'i' || input[0] == 'j') || (input[0] == 'A' || input[0] == 'B' || input[0] == 'C' || input[0] == 'D' || input[0] == 'E' || input[0] == 'F' || input[0] == 'G' || input[0] == 'H' || input[0] == 'I' || input[0] == 'J')) && (input[1] == '1' || input[1] == '2' || input[1] == '3' || input[1] == '4' || input[1] == '5' || input[1] == '6' || input[1] == '7' || input[1] == '8' || input[1] == '9')){
+                if (input[1] == '1'){
+                    if ((input.length() > 2) && input[2] == '0'){
+                        num = 9;
+                    } else {
+                        num = 0;
+                    }
+                }
+                if (input[1] != '1'){
+                    num = ((int) input[1]) - 49;
+                }
+                if (input[0] == 'a' || input[0] == 'A'){
+                    alph = 0;
+                } else if (input[0] == 'b' || input[0] == 'B'){
+                    alph = 1;
+                } else if (input[0] == 'c' || input[0] == 'C'){
+                    alph = 2;
+                } else if (input[0] == 'd' || input[0] == 'D'){
+                    alph = 3;
+                } else if (input[0] == 'e' || input[0] == 'E'){
+                    alph = 4;
+                } else if (input[0] == 'f' || input[0] == 'F'){
+                    alph = 5;
+                } else if (input[0] == 'g' || input[0] == 'G'){
+                    alph = 6;
+                } else if (input[0] == 'h' || input[0] == 'H'){
+                    alph = 7;
+                } else if (input[0] == 'i' || input[0] == 'I'){
+                    alph = 8;
+                } else if (input[0] == 'j' || input[0] == 'J'){
+                    alph = 9;
+                }
+                o++;
+            }
+        }
+        if (d == 1){
+            if (ship == 1){
+                if (num < 6){
+                    shipcheck(num, alph, c1, b, 0, 5, d);
+                }
+            } else if (ship == 2){
+                if (num < 7){
+                    shipcheck(num, alph, c1, b, 1, 4, d);
+                }
+            } else if (ship == 3){
+                if (num < 8){
+                    shipcheck(num, alph, c1, b, 2, 3, d);
+                }
+            } else if (ship == 4){
+                if (num < 8){
+                    shipcheck(num, alph, c1, b, 3, 3, d);
+                }
+            } else if (ship == 5){
+                if (num < 9){
+                    shipcheck(num, alph, c1, b, 4, 2, d);
+                }
+            }
+        } else if (d == 2){
+            if (ship == 1){
+                if (alph < 6){
+                    shipcheck(num, alph, c1, b, 0, 5, d);
+                }
+            } else if (ship == 2){
+                if (alph < 7){
+                    shipcheck(num, alph, c1, b, 1, 4, d);
+                }
+            } else if (ship == 3){
+                if (alph < 8){
+                    shipcheck(num, alph, c1, b, 2, 3, d);
+                }
+            } else if (ship == 4){
+                if (alph < 8){
+                    shipcheck(num, alph, c1, b, 3, 3, d);
+                }
+            } else if (ship == 5){
+                if (alph < 9){
+                    shipcheck(num, alph, c1, b, 4, 2, d);
+                }
+            }
+        }
+        int bbbb = 0;
+        for (bool bbb : b){
+            if (bbb == 1){
+                bbbb++;
+            }
+        }
+        if (bbbb == 5){
+            i++;
+        }
+    }
+    return 0;
+}
